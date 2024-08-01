@@ -23,7 +23,8 @@ def banner():
 def main():
     banner()
     parser = argparse.ArgumentParser(description='HIKVISION视频编码设备接入网关showFile.php任意文件下载')
-    parser.add_argument('-url','--url',dest='url',type=str,help='input your url')
+    parser.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
+    parser.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
     args = parser.parse_args()
     if args.url and not args.file:
         poc(args.url)
