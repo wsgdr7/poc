@@ -25,10 +25,20 @@ def banner():
 def main():
     banner()
     parse = argparse.ArgumentParser(description='HiKVISION 综合安防管理平台 report 任意文件上传漏洞')
-    parse.add_argument('-url','--url',dest='url',type=str,help='please input url')
+    parse.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
+    parse.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
     args = parse.parse_args()
-    if args.url():
-        poc()
+    if args.url and not args.file:
+        poc(args.url)
+    elif args.file and not args.url:
+        url_list=[]
+        with open(args.file,'r',encoding='utf-8') as fp:
+            for i in fp.readlines():
+                url_list.append(i.strip())
+        pool = Pool(80)
+        pool.map(poc,url_list)
+        pool.close()
+        pool.join()
     else:
         print(f"Usage:\n\t python3 {sys.argv[0]} -h")
     
