@@ -24,7 +24,7 @@ def banner():
 #主函数
 def main():
     banner()
-    parse = argparse.ArgumentParser(description='HiKVISION 综合安防管理平台 files 任意文件上传漏洞')
+    parser = argparse.ArgumentParser(description='HiKVISION 综合安防管理平台 files 任意文件上传漏洞')
     parser.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
     parser.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
     args = parse.parse_args()
