@@ -24,7 +24,8 @@ def banner():
 def main():
     banner()
     parser = argparse.ArgumentParser(description='HIKVISION iSecure Center综合安防管理平台文件上传')
-    parser.add_argument('-u','--url',dest='url',type=str,help='please input your url')
+    parser.add_argument('-u','--url',dest='url',type=str,help='Please Input URL')
+    parser.add_argument('-f','--file',dest='file',type=str,help='Please Input File')
     args = parser.parse_args()
     if args.url and not args.file:
         poc(args.url)
